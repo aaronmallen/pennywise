@@ -6,6 +6,7 @@ RSpec.describe Pennywise::Repos::SessionRepo do
   subject(:repo) { app["repos.session_repo"] }
 
   let(:crypto_service) { app["services.crypto_service"] }
+  let(:sessions) { app["relations.sessions"] }
 
   describe "#by_pk" do
     subject(:by_pk) { repo.by_pk(id) }
@@ -42,5 +43,13 @@ RSpec.describe Pennywise::Repos::SessionRepo do
 
       it { expect(by_token).to be_nil }
     end
+  end
+
+  describe "#create" do
+    subject(:create) { repo.create(attributes) }
+
+    let(:attributes) { { identity_id: Factory.create(:identity).id, token_digest: Faker::Crypto.sha256 } }
+
+    it { expect { create }.to change(sessions, :count).by(1) }
   end
 end

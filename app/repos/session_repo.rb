@@ -3,6 +3,8 @@
 module Pennywise
   module Repos
     class SessionRepo < DB::Repo
+      commands :create
+
       def by_pk(id)
         sessions.where(id:).one
       end
