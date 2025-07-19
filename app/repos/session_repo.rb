@@ -24,7 +24,7 @@ module Pennywise
             expired_at:
               Sequel.case(
                 { { expired_at: nil } => nil },
-                Sequel.lit("now() + INTERVAL '? seconds'", Hanami.app.settings.session_ttl),
+                Sequel.date_add(Sequel.function(:now), seconds: Hanami.app.settings.session_ttl),
               ),
           )
           .map(:touch)
