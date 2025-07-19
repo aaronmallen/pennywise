@@ -5,7 +5,7 @@
       <p class="text-slate-600">Sign in to continue managing your finances</p>
     </div>
 
-    <%= form_for :session, "#", class: "space-y-5", role: "form", novalidate: true do |f| %>
+    <%= form_for :session, routes.path(:create_session), class: "space-y-5", role: "form", novalidate: true do |f| %>
       <div>
         <%= f.label "", for: :email, class: "input input-bordered flex w-full items-center gap-2 focus-within:ring-2 focus-within:ring-slate-200 focus-within:border-slate-400 transition-all duration-200 #{'input-error' if errors&.dig(:session, :email)}" do %>
           <%= f.text_field :email,
