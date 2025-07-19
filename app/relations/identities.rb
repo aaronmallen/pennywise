@@ -4,7 +4,11 @@ module Pennywise
   module Relations
     class Identities < DB::Relation
       schema :identities, infer: true do
-        associations { has_one :credential }
+        associations do
+          has_many :sessions
+
+          has_one :credential
+        end
       end
     end
   end

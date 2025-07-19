@@ -85,6 +85,24 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: sessions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.sessions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    identity_id uuid NOT NULL,
+    token_digest character varying(64) NOT NULL,
+    ip_address text,
+    user_agent text,
+    expired_at timestamp with time zone,
+    revoked_at timestamp with time zone,
+    last_activity_at timestamp with time zone DEFAULT now() NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
 -- Name: credentials credentials_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -109,6 +127,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: sessions sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: credentials_email_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -123,11 +149,47 @@ CREATE INDEX identities_status_index ON public.identities USING btree (status);
 
 
 --
+-- Name: sessions_expired_at_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX sessions_expired_at_index ON public.sessions USING btree (expired_at);
+
+
+--
+-- Name: sessions_identity_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX sessions_identity_id_index ON public.sessions USING btree (identity_id);
+
+
+--
+-- Name: sessions_revoked_at_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX sessions_revoked_at_index ON public.sessions USING btree (revoked_at);
+
+
+--
+-- Name: sessions_token_digest_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX sessions_token_digest_index ON public.sessions USING btree (token_digest);
+
+
+--
 -- Name: credentials credentials_identity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.credentials
     ADD CONSTRAINT credentials_identity_id_fkey FOREIGN KEY (identity_id) REFERENCES public.identities(id) ON DELETE CASCADE;
+
+
+--
+-- Name: sessions sessions_identity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT sessions_identity_id_fkey FOREIGN KEY (identity_id) REFERENCES public.identities(id) ON DELETE CASCADE;
 
 
 --
@@ -140,4 +202,5 @@ INSERT INTO schema_migrations (filename) VALUES
 ('20250718211016_enable_uuid_extensions.rb'),
 ('20250718211128_create_identity_status.rb'),
 ('20250718211550_create_identities.rb'),
-('20250718213207_create_credentials.rb');
+('20250718213207_create_credentials.rb'),
+('20250718222022_create_sessions.rb');
