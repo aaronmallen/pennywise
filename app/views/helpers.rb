@@ -18,6 +18,19 @@ module Pennywise
           ""
         end
       end
+
+      def flash_alert_icon_class(flash_type)
+        case flash_type.to_sym
+        when :error, :warn, :warning
+          "fa-exclamation-triangle"
+        when :success
+          "fa-check"
+        when :info
+          "fa-info-circle"
+        else
+          ""
+        end
+      end
     end
   end
 end
