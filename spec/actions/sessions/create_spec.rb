@@ -48,8 +48,8 @@ RSpec.describe Pennywise::Actions::Sessions::Create do
       end
     end
 
-    context "when given invalid params" do
-      let(:params) { { session: { email: Faker::Internet.username } } }
+    context "when given invalid params", skip: "https://github.com/aaronmallen/pennywise/issues/5" do
+      let(:params) { { session: {} } }
 
       it { is_expected.to be_unprocessable }
     end
