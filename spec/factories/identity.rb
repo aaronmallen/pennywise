@@ -8,4 +8,8 @@ Factory.define(:identity, struct_namespace: Pennywise::Structs) do |f|
       t.status { status }
     end
   end
+
+  f.trait :with_profile do |t|
+    t.association :profile
+  end
 end

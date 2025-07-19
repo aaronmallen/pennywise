@@ -10,13 +10,18 @@ RSpec.describe Pennywise::Actions::Sessions::Create do
 
     context "when given valid params" do
       let(:password) { Faker::Internet.password(min_length: 8) }
-      let(:credential) { Factory.create(:credential, digest: crypto_service.generate_password_digest(password)) }
+      let(:identity) { Factory.create(:identity, :with_profile) }
+
+      let(:credential) do
+        Factory.create(:credential, identity:, digest: crypto_service.generate_password_digest(password))
+      end
+
       let(:params) { { session: { email: credential.email, password:, remember: true } } }
 
       it { is_expected.to be_a_redirect }
 
       it "renders a flash message" do
-        expect(call.flash.next[:success]).to eq("Welcome back!")
+        expect(call.flash.next[:success]).to eq("Welcome back #{identity.profile.first_name}!")
       end
 
       context "when credentials are wrong" do

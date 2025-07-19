@@ -27,7 +27,7 @@ module Pennywise
           case create_session.call(identity, request, remember: request.params.dig(:session, :remember))
           in Success[token]
             response.session[:token] = token
-            response.flash.next[:success] = "Welcome back!"
+            response.flash.next[:success] = "Welcome back #{identity.profile.first_name}!"
             response.redirect_to routes.path(:root)
           else
             response.status = :unprocessable_entity

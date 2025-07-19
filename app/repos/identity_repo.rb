@@ -10,7 +10,7 @@ module Pennywise
       private
 
       def with_associations
-        identities
+        identities.combine(:profile)
       end
     end
   end
