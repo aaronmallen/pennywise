@@ -1,0 +1,42 @@
+<button id="mobile-menu-toggle" class="fixed top-4 left-4 z-50 lg:hidden btn btn-ghost btn-circle">
+  <i class="fa-sharp fa-bars text-xl"></i>
+</button>
+
+<div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-40 lg:hidden hidden"></div>
+
+<aside id="sidebar" class="fixed lg:sticky flex flex-col h-screen overflow-hidden bg-base-200 flex-shrink-0 transition-all duration-300 z-50 lg:translate-x-0 -translate-x-full">
+  <div class="pl-4 pr-0 pt-4 pb-4 flex-1">
+    <div id="sidebar-brand" class="flex flex-row items-center mb-4">
+      <h1 class="sidebar-text flex-1 text-xl font-semibold">Pennywise</h1>
+      <button id="sidebar-toggle" class="cursor-pointer pr-2 hidden lg:block">
+        <i class="fa-sharp fa-arrow-left-from-line fa-xl text-base-content/30 transition-transform duration-300"></i>
+      </button>
+      <button id="mobile-close" class="cursor-pointer pr-2 lg:hidden">
+        <i class="fa-solid fa-times fa-xl text-base-content/30"></i>
+      </button>
+    </div>
+    <nav>
+      <ul class="space-y-1">
+        <li class="hover:bg-base-100 hover:border-r-0 rounded-l-lg transition-colors duration-200 <%= current_path == routes.path(:root) ? 'bg-base-100 border-r-0' : '' %> pr-4">
+          <%= link_to routes.path(:root), class: "flex items-center px-4 py-3 font-medium text-base-content no-underline" do %>
+            <i class="fa-sharp fa-envelope-open-dollar fa-xl text-base-content/70 w-5 text-center flex-shrink-0"></i>
+            <span class="sidebar-text px-4">Budget</span>
+          <% end %>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="border-t border-base-300 pl-4 pr-0 pt-4 pb-4">
+    <nav>
+      <ul class="space-y-1">
+        <li class="hover:bg-base-100 hover:border-r-0 rounded-l-lg transition-colors duration-200 pr-4">
+          <%= link_to routes.path(:sign_out), class: "flex items-center px-4 py-3 font-medium text-base-content no-underline" do %>
+            <i class="fa-sharp fa-right-from-bracket fa-xl text-base-content/70 w-5 text-center flex-shrink-0"></i>
+            <span class="sidebar-text px-4">Sign Out</span>
+          <% end %>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</aside>

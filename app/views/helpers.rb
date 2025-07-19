@@ -4,6 +4,10 @@
 module Pennywise
   module Views
     module Helpers
+      def current_path
+        _context.request.fullpath
+      end
+
       def flash_alert_class(flash_type)
         case flash_type.to_sym
         when :error

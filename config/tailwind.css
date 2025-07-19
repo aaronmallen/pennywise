@@ -11,3 +11,37 @@
     "Poppins", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji";
 }
+
+#sidebar {
+  @apply w-64 transition-all duration-200;
+}
+
+#sidebar.sidebar-collapsed {
+  @apply w-16 items-center;
+}
+
+#sidebar.sidebar-collapsed #sidebar-brand {
+  @apply justify-center;
+}
+
+#sidebar.sidebar-collapsed .sidebar-text {
+  @apply opacity-0;
+  transition: opacity 0.1s ease-in-out;
+}
+
+#sidebar .sidebar-text {
+  @apply opacity-100;
+  transition: opacity 0.1s ease-in-out 0.1s;
+}
+
+#sidebar.sidebar-collapsed li {
+  @apply justify-center py-3;
+}
+
+#sidebar li a {
+  @apply py-3;
+}
+
+#sidebar-toggle i {
+  @apply transition-transform duration-300;
+}
