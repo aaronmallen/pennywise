@@ -6,6 +6,6 @@ module Pennywise
   Types = Dry.Types
 
   module Types
-    # Define your custom types here
+    IdentityStatus = Types::String.enum("active", "disabled_by_admin", "disabled_by_owner", "invited")
   end
 end

@@ -31,6 +31,18 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
 COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
 
 
+--
+-- Name: identity_status; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.identity_status AS ENUM (
+    'active',
+    'disabled_by_admin',
+    'disabled_by_owner',
+    'invited'
+);
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -59,4 +71,5 @@ ALTER TABLE ONLY public.schema_migrations
 SET search_path TO "$user", public;
 
 INSERT INTO schema_migrations (filename) VALUES
-('20250718211016_enable_uuid_extensions.rb');
+('20250718211016_enable_uuid_extensions.rb'),
+('20250718211128_create_identity_status.rb');
