@@ -1,0 +1,65 @@
+x-database-password: &database-password ${DATABASE_PASSWORD:-password}
+x-database-port: &database-port ${DATABASE_PORT:-5432}
+x-database-user: &database-user ${DATABASE_USER:-postgres}
+
+x-redis-password: &redis-password ${REDIS_PASSWORD:-password}
+x-redis-port: &redis-port ${REDIS_PORT:-6379}
+
+x-env-files: &env-files
+  env_file:
+    - path: ./.env
+      required: true
+    - path: ./.env.local
+      required: true
+
+name: pennywise
+
+services:
+  postgres:
+    <<: *env-files
+    container_name: pennywise-postgres
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      PGPORT: *database-port
+      POSTGRES_PASSWORD: *database-password
+      POSTGRES_USER: *database-user
+    healthcheck:
+      interval: 10s
+      retries: 5
+      test: sh -c "pg_isready -U $$POSTGRES_USER -p $$PGPORT"
+      timeout: 5s
+    image: postgres:17
+    ports:
+      - mode: host
+        protocol: tcp
+        published: *database-port
+        target: *database-port
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  redis:
+    <<: *env-files
+    command: sh -c 'redis-server --requirepass $$REDIS_PASSWORD --port $$REDIS_PORT'
+    container_name: pennywise-redis
+    environment:
+      REDIS_PASSWORD: *redis-password
+      REDIS_PORT: *redis-port
+    healthcheck:
+      interval: 10s
+      retries: 5
+      test: sh -c 'redis-cli -a $$REDIS_PASSWORD ping --port $$REDIS_PORT'
+      timeout: 5s
+    image: redis:8
+    ports:
+      - mode: host
+        protocol: tcp
+        published: *redis-port
+        target: *redis-port
+    volumes:
+      - redis-data:/data
+
+volumes:
+  db-data:
+    name: pennywise-postgres-data
+  redis-data:
+    name: pennywise-redis-data

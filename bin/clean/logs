@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+#MISE description="cleanup log files"
+
+set -e
+
+rm -rf log/*

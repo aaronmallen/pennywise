@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+#MISE description="start the Sidekiq worker"
+
+bin/docker/wait
+bundle exec sidekiq -r ./config/sidekiq.rb

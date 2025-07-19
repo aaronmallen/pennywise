@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+#MISE description="run code linting"
+#MISE alias=["l"]
+
+set -e
+
+bin/lint/check

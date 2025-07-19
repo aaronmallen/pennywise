@@ -1,0 +1,32 @@
+name: Security
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: "0 0 * * 1" # Weekly on Mondays
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+
+      - name: Run Bundler Audit
+        run: |
+          gem install bundler-audit
+          bundle audit --update
+
+      - name: Run npm audit
+        run: npm audit --audit-level high

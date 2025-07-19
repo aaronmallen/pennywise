@@ -1,0 +1,35 @@
+#!/usr/bin/env sh
+#MISE description="configure and setup .env and .env.local files"
+#MISE alias=["dev:su:dotenv"]
+
+# Source existing env files if they exist
+[ -f .env ] && set -a && . .env && set +a
+[ -f .env.local ] && set -a && . .env.local && set +a
+
+# Generate random hex string (similar to SecureRandom.hex)
+generate_hex() {
+  openssl rand -hex "$1"
+}
+
+# Get existing value or generate new one
+DATABASE_PASSWORD=${DATABASE_PASSWORD:-$(generate_hex 32)}
+REDIS_PASSWORD=${REDIS_PASSWORD:-$(generate_hex 32)}
+SESSION_SECRET=${SESSION_SECRET:-$(generate_hex 64)}
+
+# Write the template to .env.local
+cat > .env.local << EOF
+########################################################################################################################
+# APPLICATION CONFIGURATION
+########################################################################################################################
+SESSION_SECRET=${SESSION_SECRET}
+
+########################################################################################################################
+# DATABASE CONFIGURATION
+########################################################################################################################
+DATABASE_PASSWORD=${DATABASE_PASSWORD}
+
+########################################################################################################################
+# REDIS CONFIGURATION
+########################################################################################################################
+REDIS_PASSWORD=${REDIS_PASSWORD}
+EOF

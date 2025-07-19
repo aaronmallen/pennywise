@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+#MISE description="setup the development environment"
+#MISE alias=["dev:su"]
+
+set -e
+
+bin/dev/setup/dotenv
+bin/dev/setup/install
+bin/dev/setup/assets
+bin/database/prepare

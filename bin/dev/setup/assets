@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+#MISE description="setup the assets"
+#MISE alias=["dev:su:assets"]
+
+npx @tailwindcss/cli -i ./config/tailwind.css -o ./app/assets/css/tailwind.css
+bin/clean/assets

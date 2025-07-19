@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+#MISE description="clean the working directory"
+
+set -e
+
+bin/clean/logs
+bin/clean/assets

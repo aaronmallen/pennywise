@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+#MISE description="cleanup asset files"
+
+set -e
+
+(cd public && find . -mindepth 1 -not -name '404.html' -not -name '500.html' -delete)

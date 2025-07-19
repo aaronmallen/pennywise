@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+#MISE hide=true
+
+echo "Waiting for database to be ready..."
+while true; do
+  health_status=$(docker-compose ps -q postgres | xargs docker inspect --format='{{.State.Health.Status}}' 2>/dev/null | tr -d '\n')
+  [ "$health_status" = "healthy" ] && break
+
+  printf "."
+  sleep 2
+done

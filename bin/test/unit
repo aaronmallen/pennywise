@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+#MISE description="run the unit tests"
+#MISE alias=["t:u", "t:unit"]
+
+set -e
+
+if docker-compose ps -q postgres | xargs docker inspect --format='{{.State.Running}}' 2>/dev/null | grep -q true; then
+  db_was_running=true
+else
+  docker-compose up -d postgres
+  db_was_running=false
+  bin/docker/wait
+fi
+
+bundle exec rspec "$@"
+
+if [ "$db_was_running" = "false" ]; then
+  echo "Stopping database..."
+  docker-compose down
+fi

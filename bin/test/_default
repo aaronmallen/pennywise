@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+#MISE description="run the test suite"
+#MISE alias=["t"]
+
+set -e
+
+bin/test/unit

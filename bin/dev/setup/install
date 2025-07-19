@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+#MISE description="install dependencies"
+#MISE alias=["dev:setup:i", "dev:su:i", "dev:su:install"]
+
+set -e
+
+bundle install
+npm install
+docker-compose pull

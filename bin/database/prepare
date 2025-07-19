@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+#MISE description="prepare the database"
+#MISE alias=["database:p", "db:p", "db:prepare"]
+
+set -e
+
+if docker-compose ps -q postgres | xargs docker inspect --format='{{.State.Running}}' 2>/dev/null | grep -q true; then
+  db_was_running=true
+else
+  docker-compose up -d postgres
+  db_was_running=false
+  bin/docker/wait
+fi
+
+bundle exec hanami db prepare
+
+if [ "$db_was_running" = "false" ]; then
+  echo "Stopping database..."
+  docker-compose down
+fi

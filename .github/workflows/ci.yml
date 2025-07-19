@@ -1,0 +1,107 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24.4"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          bundle install
+          npm install
+
+      - name: Lint Markdown
+        run: npx markdownlint .
+
+      - name: Check code formatting
+        run: npx prettier . --check
+
+      - name: Lint Ruby code
+        run: bundle exec rubocop
+
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      DATABASE_HOST: localhost
+      DATABASE_PORT: 5432
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: ""
+      DATABASE_NAME: pennywise_test
+      HANAMI_ENV: test
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ""
+      REDIS_DATABASE: 0
+      SESSION_SECRET: fake_ci_128_character_secret_fake_ci_128_character_secret_fake_ci_128_character_secret_fake_ci_128_character_secret_fake_ci_128_
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: pennywise_test
+          POSTGRES_HOST_AUTH_METHOD: trust
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:8
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24.4"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          bundle install
+          npm install
+          npx @tailwindcss/cli -i ./config/tailwind.css -o ./app/assets/css/tailwind.css
+
+      - name: Set up database
+        run: bundle exec hanami db prepare
+
+      - name: Run tests
+        run: bundle exec rspec

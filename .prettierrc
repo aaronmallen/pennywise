@@ -1,0 +1,15 @@
+arrowParens: avoid
+bracketSameLine: false
+bracketSpacing: true
+endOfLine: lf
+plugins:
+  - "@prettier/plugin-ruby"
+  - prettier-plugin-tailwindcss
+printWidth: 120
+rubyPlugins: css,erb,tailwindcss
+rubySingleQuote: false
+semi: false
+singleQuote: false
+tabWidth: 2
+trailingComma: all
+useTabs: false

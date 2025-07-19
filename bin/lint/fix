@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+#MISE description="run code linting with autocorrection"
+#MISE alias=["l:f", "l:fix", "lint:f"]
+
+set -e
+
+npx markdownlint . --fix
+npx prettier . --write
+bundle exec rubocop -a

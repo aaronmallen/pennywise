@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+#MISE description="start a development console session"
+#MISE alias=["dev:c"]
+
+set -e
+
+bundle exec hanami console

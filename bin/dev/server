@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+#MISE description="start the Hanami server"
+
+bin/docker/wait
+bundle exec hanami server

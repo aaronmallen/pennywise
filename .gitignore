@@ -1,0 +1,9 @@
+/.idea/
+/coverage/
+/log/
+/node_modules/
+/public/*
+!/public/404.html
+!/public/500.html
+.env*.local
+app/assets/css/tailwind.css

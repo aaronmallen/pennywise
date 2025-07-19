@@ -1,0 +1,59 @@
+[env]
+_.file = [".env", ".env.local"]
+
+[task_config]
+includes = ["bin"]
+
+[tasks."generate:action"]
+description = "generate a Hanami action"
+alias = ["g:action"]
+run = "bundle exec hanami generate action"
+
+[tasks."generate:component"]
+description = "generate a Hanami component"
+alias = ["g:component"]
+run = "bundle exec hanami generate component"
+
+[tasks."generate:migration"]
+description = "generate a Hanami database migration"
+alias = ["g:migration"]
+run = "bundle exec hanami generate migration"
+
+[tasks."generate:operation"]
+description = "generate a Hanami operation"
+alias = ["g:operation"]
+run = "bundle exec hanami generate operation"
+
+[tasks."generate:part"]
+description = "generate a Hanami part"
+alias = ["g:part"]
+run = "bundle exec hanami generate part"
+
+[tasks."generate:relation"]
+description = "generate a Hanami relation"
+alias = ["g:relation"]
+run = "bundle exec hanami generate relation"
+
+[tasks."generate:repo"]
+description = "generate a Hanami repo"
+alias = ["g:repo"]
+run = "bundle exec hanami generate repo"
+
+[tasks."generate:slice"]
+description = "generate a Hanami slice"
+alias = ["g:slice"]
+run = "bundle exec hanami generate slice"
+
+[tasks."generate:struct"]
+description = "generate a Hanami struct"
+alias = ["g:struct"]
+run = "bundle exec hanami generate struct"
+
+[tasks."generate:view"]
+description = "generate a Hanami view"
+alias = ["g:view"]
+run = "bundle exec hanami generate view"
+
+[tools]
+node = "24.4"
+ruby = "3.4"

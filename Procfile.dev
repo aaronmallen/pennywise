@@ -1,0 +1,7 @@
+docker: docker-compose up
+
+assets: bundle exec hanami assets watch
+tailwind: npx @tailwindcss/cli -i ./config/tailwind.css -o ./app/assets/css/tailwind.css --watch
+
+web: bin/dev/server
+worker: bin/dev/sidekiq

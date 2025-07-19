@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes:
+    lofi --default,
+    night;
+}
+
+@theme {
+  --font-sans:
+    "Poppins", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+}
