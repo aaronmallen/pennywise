@@ -52,4 +52,84 @@ RSpec.describe Pennywise::Repos::SessionRepo do
 
     it { expect { create }.to change(sessions, :count).by(1) }
   end
+
+  describe "#touch_by_token" do
+    subject(:touch_by_token) { repo.touch_by_token(token) }
+
+    let(:token) { crypto_service.generate_secret }
+    let!(:session) do
+      Factory.create(
+        :session,
+        token_digest: crypto_service.generate_sha_digest(token),
+        last_activity_at: Time.now.utc - 60,
+      )
+    end
+
+    it { is_expected.to be_a Pennywise::Structs::Session }
+
+    it "updates the session's last_activity_at" do
+      touch_by_token
+      from_db = repo.by_token(token)
+
+      expect(from_db.last_activity_at).to be > session.last_activity_at
+    end
+
+    context "when the session has an expiration date" do
+      let!(:session) do
+        Factory.create(
+          :session,
+          token_digest: crypto_service.generate_sha_digest(token),
+          last_activity_at: Time.now.utc - 60,
+          expired_at: Time.now.utc + (7200 - 60),
+        )
+      end
+
+      it "updates the session's expired_at" do
+        touch_by_token
+        from_db = repo.by_token(token)
+
+        expect(from_db.expired_at).to be > session.expired_at
+      end
+    end
+
+    context "when the session is expired" do
+      let!(:session) do
+        Factory.create(
+          :session,
+          :expired,
+          token_digest: crypto_service.generate_sha_digest(token),
+          last_activity_at: Time.now.utc - 60,
+        )
+      end
+
+      it { is_expected.to be_nil }
+
+      it "does not update the session's last_activity_at or expired_at" do
+        touch_by_token
+        from_db = repo.by_token(token)
+
+        expect(from_db).to have_attributes(last_activity_at: session.last_activity_at, expired_at: session.expired_at)
+      end
+    end
+
+    context "when the session is revoked" do
+      let!(:session) do
+        Factory.create(
+          :session,
+          :revoked,
+          token_digest: crypto_service.generate_sha_digest(token),
+          last_activity_at: Time.now.utc - 60,
+        )
+      end
+
+      it { is_expected.to be_nil }
+
+      it "does not update the session's last_activity_at or expired_at" do
+        touch_by_token
+        from_db = repo.by_token(token)
+
+        expect(from_db).to have_attributes(last_activity_at: session.last_activity_at, expired_at: session.expired_at)
+      end
+    end
+  end
 end

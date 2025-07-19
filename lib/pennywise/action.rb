@@ -6,7 +6,7 @@ require "dry/monads"
 
 module Pennywise
   class Action < Hanami::Action
-    # Provide `Success` and `Failure` for pattern matching on operation results
+    include AuthHelpers
     include Dry::Monads[:result]
   end
 end

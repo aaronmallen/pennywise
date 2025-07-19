@@ -10,10 +10,10 @@ Factory.define(:session, struct_namespace: Pennywise::Structs) do |f|
   f.user_agent { Faker::Internet.user_agent }
 
   f.trait :expired do |t|
-    t.expired_at { Time.now.utc }
+    t.expired_at { Time.now.utc - 60 }
   end
 
   f.trait :revoked do |t|
-    t.revoked_at { Time.now.utc }
+    t.revoked_at { Time.now.utc - 60 }
   end
 end
