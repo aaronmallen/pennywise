@@ -48,12 +48,32 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: identities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.identities (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    status public.identity_status DEFAULT 'active'::public.identity_status NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.schema_migrations (
     filename text NOT NULL
 );
+
+
+--
+-- Name: identities identities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identities
+    ADD CONSTRAINT identities_pkey PRIMARY KEY (id);
 
 
 --
@@ -65,6 +85,13 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: identities_status_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX identities_status_index ON public.identities USING btree (status);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -72,4 +99,5 @@ SET search_path TO "$user", public;
 
 INSERT INTO schema_migrations (filename) VALUES
 ('20250718211016_enable_uuid_extensions.rb'),
-('20250718211128_create_identity_status.rb');
+('20250718211128_create_identity_status.rb'),
+('20250718211550_create_identities.rb');
