@@ -21,7 +21,7 @@ module Pennywise
           request.env[:current_user] = identity_repo.by_pk(session.identity_id) if session
         end
 
-        response.redirect_to routes.path("/sign-in") unless request.env[:current_user]
+        response.redirect_to routes.path(:sign_in) unless request.env[:current_user]
       end
     end
   end

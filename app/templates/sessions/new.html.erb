@@ -1,0 +1,63 @@
+<div class="card w-full max-w-md bg-white shadow-xl border-0">
+  <div class="card-body p-8 space-y-6">
+    <div class="text-center space-y-3">
+      <h1 class="text-3xl font-bold text-slate-800">Welcome back!</h1>
+      <p class="text-slate-600">Sign in to continue managing your finances</p>
+    </div>
+
+    <%= form_for :session, "#", class: "space-y-5", role: "form", novalidate: true do |f| %>
+      <div>
+        <%= f.label "", for: :email, class: "input input-bordered flex w-full items-center gap-2 focus-within:ring-2 focus-within:ring-slate-200 focus-within:border-slate-400 transition-all duration-200 #{'input-error' if errors&.dig(:session, :email)}" do %>
+          <%= f.text_field :email,
+                           class: "grow bg-transparent outline-none",
+                           placeholder: "Email Address",
+                           required: true,
+                           tabindex: 1,
+                           autocomplete: "email",
+                           "aria-label": "Email Address" %>
+        <% end %>
+        <% if errors&.dig(:session, :email) %>
+          <div class="label">
+            <span class="label-text-alt text-error">
+              <%= errors[:session][:email].join(', ') %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+
+      <div>
+        <%= f.label "", for: :password, class: "input input-bordered flex w-full items-center gap-2 focus-within:ring-2 focus-within:ring-slate-200 focus-within:border-slate-400 transition-all duration-200 #{'input-error' if errors&.dig(:session, :password)}" do %>
+          <%= f.password_field :password,
+                               class: "grow bg-transparent outline-none",
+                               placeholder: "Password",
+                               required: true,
+                               tabindex: 2,
+                               autocomplete: "current-password",
+                               "aria-label": "Password" %>
+        <% end %>
+        <% if errors&.dig(:session, :password) %>
+          <div class="label">
+            <span class="label-text-alt text-error">
+              <%= errors[:session][:password].join(', ') %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <%= f.label "", for: :remember, class: "label cursor-pointer flex flex-row w-full" do %>
+          <div class="label-text flex-1">Remember me</div>
+          <%= f.check_box :remember,
+                          class: "toggle toggle-primary ml-3",
+                          tabindex: 3,
+                          "aria-label": "Remember me for longer" %>
+        <% end %>
+      </div>
+
+      <%= f.submit "Sign In",
+                   class: "btn btn-primary w-full btn-lg text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200",
+                   tabindex: 4,
+                   "aria-label": "Sign in to your account" %>
+    <% end %>
+  </div>
+</div>
