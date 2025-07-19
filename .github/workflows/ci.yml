@@ -99,6 +99,7 @@ jobs:
           bundle install
           npm install
           npx @tailwindcss/cli -i ./config/tailwind.css -o ./app/assets/css/tailwind.css
+          bundle exec hanami assets compile
 
       - name: Set up database
         run: bundle exec hanami db prepare
