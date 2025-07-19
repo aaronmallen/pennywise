@@ -48,6 +48,22 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: credentials; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.credentials (
+    identity_id uuid NOT NULL,
+    email character varying(320) NOT NULL,
+    digest text NOT NULL,
+    failed_attempts integer DEFAULT 0 NOT NULL,
+    locked_until timestamp with time zone,
+    digest_changed_at timestamp with time zone DEFAULT now() NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
 -- Name: identities; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -69,6 +85,14 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: credentials credentials_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.credentials
+    ADD CONSTRAINT credentials_pkey PRIMARY KEY (identity_id);
+
+
+--
 -- Name: identities identities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -85,10 +109,25 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: credentials_email_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX credentials_email_index ON public.credentials USING btree (email);
+
+
+--
 -- Name: identities_status_index; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX identities_status_index ON public.identities USING btree (status);
+
+
+--
+-- Name: credentials credentials_identity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.credentials
+    ADD CONSTRAINT credentials_identity_id_fkey FOREIGN KEY (identity_id) REFERENCES public.identities(id) ON DELETE CASCADE;
 
 
 --
@@ -100,4 +139,5 @@ SET search_path TO "$user", public;
 INSERT INTO schema_migrations (filename) VALUES
 ('20250718211016_enable_uuid_extensions.rb'),
 ('20250718211128_create_identity_status.rb'),
-('20250718211550_create_identities.rb');
+('20250718211550_create_identities.rb'),
+('20250718213207_create_credentials.rb');
