@@ -1,3 +1,9 @@
 en:
   pennywise:
     errors:
+      new_session_contract:
+        rules:
+          email:
+            format?: is not a valid email address
+          password:
+            min_size?: must be at least %{num} characters
