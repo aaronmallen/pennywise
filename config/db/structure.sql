@@ -76,6 +76,21 @@ CREATE TABLE public.identities (
 
 
 --
+-- Name: profiles; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.profiles (
+    identity_id uuid NOT NULL,
+    first_name text NOT NULL,
+    last_name text,
+    avatar_url text,
+    locale text DEFAULT 'en'::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -116,6 +131,14 @@ ALTER TABLE ONLY public.credentials
 
 ALTER TABLE ONLY public.identities
     ADD CONSTRAINT identities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: profiles profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.profiles
+    ADD CONSTRAINT profiles_pkey PRIMARY KEY (identity_id);
 
 
 --
@@ -185,6 +208,14 @@ ALTER TABLE ONLY public.credentials
 
 
 --
+-- Name: profiles profiles_identity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.profiles
+    ADD CONSTRAINT profiles_identity_id_fkey FOREIGN KEY (identity_id) REFERENCES public.identities(id) ON DELETE CASCADE;
+
+
+--
 -- Name: sessions sessions_identity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -203,4 +234,5 @@ INSERT INTO schema_migrations (filename) VALUES
 ('20250718211128_create_identity_status.rb'),
 ('20250718211550_create_identities.rb'),
 ('20250718213207_create_credentials.rb'),
-('20250718222022_create_sessions.rb');
+('20250718222022_create_sessions.rb'),
+('20250719163847_create_profiles.rb');

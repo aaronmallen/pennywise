@@ -8,6 +8,7 @@ module Pennywise
           has_many :sessions
 
           has_one :credential
+          has_one :profile
         end
       end
     end

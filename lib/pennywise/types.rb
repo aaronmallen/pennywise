@@ -13,10 +13,16 @@ module Pennywise
 
     IPAddress = Types::String.constrained(format: Regexp.union(Resolv::IPv4::Regex, Resolv::IPv6::Regex))
 
+    URI = Types::String.constrained(format: URI::DEFAULT_PARSER.make_regexp)
+
     module Normalized
       EmailAddress = EmailAddress.constructor { |value| value.to_s.downcase.strip }
 
       IPAddress = IPAddress.constructor(&:strip)
+
+      Name = Types::String.constructor(&:strip)
+
+      URI = URI.constructor { |value| value.to_s.downcase.strip }
     end
   end
 end
