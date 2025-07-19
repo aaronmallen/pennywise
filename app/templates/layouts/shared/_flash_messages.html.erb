@@ -1,0 +1,19 @@
+<div id="flash-container" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 space-y-3 max-w-2xl w-full px-4">
+  <% flash.each do |type, message| %>
+    <% next if message.nil? || message.empty? %>
+
+    <div class="flash-message alert <%= flash_alert_class(type) %> shadow-lg opacity-0 translate-y-4 transition-all duration-300 ease-out"
+         data-flash-type="<%= type %>"
+         role="alert"
+         aria-live="polite">
+      <span class="text-sm font-medium"><%= message %></span>
+      <button type="button"
+              class="flash-dismiss flex-shrink-0 cursor-pointer w-6 h-6 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors duration-200 ml-4"
+              aria-label="Dismiss notification">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-sm" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  <% end %>
+</div>

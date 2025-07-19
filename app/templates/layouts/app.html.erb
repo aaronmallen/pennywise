@@ -3,6 +3,7 @@
   <%= render "shared/head" %>
   <body>
     <%= yield %>
+    <%= render "shared/flash_messages" %>
     <%= javascript_tag "app" %>
   </body>
 </html>
