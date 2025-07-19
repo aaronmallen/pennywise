@@ -24,7 +24,7 @@ module Pennywise
         private
 
         def handle_successful_authentication(identity, request, response)
-          case create_session.call(identity, request, remember: request.params[:remember])
+          case create_session.call(identity, request, remember: request.params.dig(:session, :remember))
           in Success[token]
             response.session[:token] = token
             response.flash.next[:success] = "Welcome back!"
