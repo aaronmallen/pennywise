@@ -5,6 +5,7 @@ source "https://rubygems.org"
 ruby "~> 3.4"
 
 group :development, :production, :staging, :test do
+  gem "argon2"
   gem "dry-operation"
   gem "dry-types"
   gem "hanami"

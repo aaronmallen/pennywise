@@ -4,7 +4,20 @@
 module Pennywise
   module Views
     module Helpers
-      # Add your view helpers here
+      def flash_alert_class(flash_type)
+        case flash_type.to_sym
+        when :error
+          "alert-error"
+        when :success
+          "alert-success"
+        when :info
+          "alert-info"
+        when :warn, :warning
+          "alert-warning"
+        else
+          ""
+        end
+      end
     end
   end
 end
