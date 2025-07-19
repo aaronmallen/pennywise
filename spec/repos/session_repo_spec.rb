@@ -53,6 +53,44 @@ RSpec.describe Pennywise::Repos::SessionRepo do
     it { expect { create }.to change(sessions, :count).by(1) }
   end
 
+  describe "#revoke_by_token" do
+    subject(:revoke_by_token) { repo.revoke_by_token(token) }
+
+    let(:token) { crypto_service.generate_secret }
+    let!(:session) do
+      Factory.create(
+        :session,
+        token_digest: crypto_service.generate_sha_digest(token),
+        last_activity_at: Time.now.utc - 60,
+      )
+    end
+
+    it "revokes the session" do
+      revoke_by_token
+      from_db = repo.by_token(token)
+
+      expect(from_db).to be_revoked
+    end
+
+    it "updates the session's last_activity_at" do
+      revoke_by_token
+      from_db = repo.by_token(token)
+
+      expect(from_db.last_activity_at).to be > session.last_activity_at
+    end
+
+    context "when the session was previously revoked" do
+      let!(:session) { Factory.create(:session, :revoked, token_digest: crypto_service.generate_sha_digest(token)) }
+
+      it "does not update the session's revoked_at date" do
+        revoke_by_token
+        from_db = repo.by_token(token)
+
+        expect(from_db.revoked_at).to be_within(5).of(session.revoked_at)
+      end
+    end
+  end
+
   describe "#touch_by_token" do
     subject(:touch_by_token) { repo.touch_by_token(token) }
 

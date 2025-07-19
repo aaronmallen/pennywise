@@ -14,6 +14,15 @@ module Pennywise
         sessions.where(token_digest:).one
       end
 
+      def revoke_by_token(token)
+        sessions
+          .where(token_digest: generate_token_sha(token), revoked_at: nil)
+          .changeset(:update)
+          .data(revoked_at: Sequel.function(:now), last_activity_at: Sequel.function(:now))
+          .map(:touch)
+          .commit
+      end
+
       def touch_by_token(token)
         sessions
           .where(token_digest: generate_token_sha(token), revoked_at: nil)
