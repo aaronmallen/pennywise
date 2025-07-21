@@ -6,6 +6,7 @@ ruby "~> 3.4"
 
 group :development, :production, :staging, :test do
   gem "argon2"
+  gem "class_variants"
   gem "dry-operation"
   gem "dry-types"
   gem "hanami"
@@ -17,6 +18,8 @@ group :development, :production, :staging, :test do
   gem "hanami-view"
   gem "i18n"
   gem "pg"
+  gem "phlex"
+  gem "phlex-slotable"
   gem "puma"
   gem "redis"
   gem "sidekiq"
