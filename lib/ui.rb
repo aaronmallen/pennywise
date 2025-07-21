@@ -16,6 +16,7 @@ module UI
         end
 
       loader.setup
+      loader.eager_load_dir(File.join(root_path, "ui/components"))
     end
   end
 end
