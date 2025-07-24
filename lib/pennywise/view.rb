@@ -1,10 +1,9 @@
 # auto_register: false
 # frozen_string_literal: true
 
-require "hanami/view"
+require "ui/view"
 
 module Pennywise
-  class View < Hanami::View
-    expose(:page_title, layout: true) { nil }
+  class View < UI::View
   end
 end

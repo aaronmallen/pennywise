@@ -19,6 +19,10 @@ Layout/LeadingCommentSpace:
   Exclude:
     - bin/**/*
 
+Lint/MissingSuper:
+  AllowedParentClasses:
+    - Component
+
 Metrics/AbcSize:
   Enabled: false
 
@@ -53,7 +57,7 @@ Metrics/ModuleLength:
   Max: 500
 
 Metrics/ParameterLists:
-  Max: 10
+  Max: 20
 
 Metrics/PerceivedComplexity:
   Enabled: false

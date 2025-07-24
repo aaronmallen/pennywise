@@ -1,3 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "extensions/rom/timestamps"
+require "pennywise/extensions/hanami/action/response"
+require "pennywise/extensions/hanami/slice_configured_action"
+require "pennywise/extensions/rom/timestamps"
